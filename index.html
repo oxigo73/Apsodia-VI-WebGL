@@ -25,12 +25,40 @@
     #status { font-size: 14px; color: #c7c0d4; } #error { white-space: pre-wrap; color: #ffc2b6; }
     footer { font-size: 13px; color: #c1b9ce; padding-top: 0; } details { max-width: 900px; } details p { line-height: 1.8; } kbd { color: #fff; }
     #player:fullscreen { width: 100vw; height: 100dvh; border-radius: 0; } #player:fullscreen canvas { width: 100%; height: 100%; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+    #mobile-notice[hidden] { display: none; }
+    #mobile-notice { width: min(100%, 30rem); padding: 2rem 1.5rem; }
+    .mobile-icon { width: 4.5rem; height: 4.5rem; color: #40ffab; margin-bottom: 1.75rem; }
+    .mobile-eyebrow { color: #40ffab; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }
+    #mobile-notice h1 { font-size: clamp(2rem, 8vw, 3rem); letter-spacing: -.045em; line-height: 1.08; margin: .9rem 0 1.25rem; }
+    .mobile-description { color: #cdc7d8; font-size: 1rem; line-height: 1.65; margin-bottom: 2rem; }
+    .mobile-link-label { display: block; color: #a7a0b8; font-size: .8rem; margin-bottom: .6rem; }
+    #desktop-link { display: block; width: 100%; min-height: 48px; border: 1px solid #ffffff30; border-radius: 6px; background: #08070d; color: #f8f5ff; padding: .85rem; font: inherit; font-size: 1rem; }
+    #desktop-link:focus-visible { outline: 3px solid #40ffab; outline-offset: 4px; }
+    #copy-desktop-link { width: 100%; min-height: 48px; margin-top: .75rem; background: #40ffab; border-color: #40ffab; color: #10251a; font-weight: 750; }
+    #mobile-copy-status { min-height: 3.5rem; margin: 1rem 0 0; color: #cdc7d8; font-size: .875rem; line-height: 1.5; }
+    body.is-phone { background: radial-gradient(ellipse at 100% 0, #b0456930, transparent 60%), #100e18; }
+    .is-phone main { padding: 0; }
+    .is-phone #player, .is-phone #fullscreen, .is-phone .tag, .is-phone footer details { display: none; }
+    .is-phone header { padding: 1.1rem 1.5rem; }
+    .is-phone footer { padding: 1rem 1.5rem; }
     @media (max-width: 700px) { header, footer { padding: 12px; } main { padding: 4px; } #player { width: 100%; } .tag { display: none; } }
   </style>
 </head>
 <body>
   <header><strong>APSODIA VI</strong><span class="tag">PROTOTYPE JOUABLE · CLAVIER + SOURIS</span><span class="spacer"></span><button id="fullscreen" disabled>Plein écran</button></header>
-  <main><section id="player" aria-label="Jeu Apsodia VI">
+  <main>
+    <section id="mobile-notice" aria-labelledby="mobile-title" hidden>
+      <svg class="mobile-icon" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><rect x="6" y="9" width="60" height="39" rx="4"/><path d="M27 62h18M36 48v14M6 39h60"/><path d="m28 21 6 5-6 5M39 31h7"/></svg>
+      <p class="mobile-eyebrow">TROIS TALENTS. UNE CAMPAGNE.</p>
+      <h1 id="mobile-title">Cette mission se joue sur ordinateur.</h1>
+      <p class="mobile-description">Pour profiter pleinement d’Apsodia VI, retrouve Justin, Enzo et Lana sur un ordinateur, avec un clavier et une souris.</p>
+      <label class="mobile-link-label" for="desktop-link">Le lien à ouvrir sur ton ordinateur</label>
+      <input id="desktop-link" type="url" value="https://play.apsodia.com/" readonly spellcheck="false" aria-describedby="mobile-copy-status">
+      <button id="copy-desktop-link" type="button">Copier le lien</button>
+      <p id="mobile-copy-status" role="status" aria-live="polite">Le bureau t’attend sur grand écran.</p>
+    </section>
+    <section id="player" aria-label="Jeu Apsodia VI">
     <canvas id="unity-canvas" width="1600" height="900" tabindex="0" aria-label="Jeu : choisir Justin, Enzo ou Lana. Commandes sous le jeu."></canvas>
     <div id="cover"><div><h1>APSODIA VI</h1><p>Trois talents, une campagne. Prépare le pitch avec Justin, débloque les dossiers avec Enzo et réalise les photos avec Lana pour lancer BRIZ.</p><button id="launch">Lancer le jeu</button><progress id="progress" max="1" value="0" hidden aria-label="Chargement du jeu"></progress><p id="status" role="status" aria-live="polite">À tester sur ordinateur, avec clavier et souris.</p><p id="error" role="alert"></p></div></div>
   </section></main>
@@ -42,6 +70,29 @@
     const progress = document.querySelector('#progress');
     const launch = document.querySelector('#launch');
     const fullscreen = document.querySelector('#fullscreen');
+    const desktopLink = document.querySelector('#desktop-link');
+    const copyStatus = document.querySelector('#mobile-copy-status');
+    function isPhone() {
+      return navigator.userAgentData?.mobile === true || /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(navigator.userAgent) ||
+        (matchMedia('(pointer: coarse)').matches && matchMedia('(hover: none)').matches && Math.min(screen.width, screen.height) <= 600);
+    }
+    function showDeviceWelcome() {
+      const phone = isPhone();
+      document.body.classList.toggle('is-phone', phone);
+      document.querySelector('#mobile-notice').hidden = !phone;
+      launch.disabled = phone;
+      return phone;
+    }
+    showDeviceWelcome();
+    document.querySelector('#copy-desktop-link').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(desktopLink.value);
+        copyStatus.textContent = 'Lien copié ! Ouvre-le sur ton ordinateur pour rejoindre l’agence.';
+      } catch {
+        desktopLink.focus(); desktopLink.select();
+        copyStatus.textContent = 'Sélectionne le lien ci-dessus, puis utilise la fonction Copier de ton téléphone.';
+      }
+    });
     let instance;
     const config = {
       dataUrl: 'Build/ApsodiaWebGL.data.unityweb', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb',
@@ -50,6 +101,7 @@
       showBanner: (message, type) => { if (type === 'error') { error.textContent = message; document.querySelector('#cover').hidden = false; } else console.warn(message); }
     };
     launch.addEventListener('click', () => {
+      if (showDeviceWelcome()) return;
       launch.disabled = true; launch.hidden = true; progress.hidden = false;
       status.textContent = 'Chargement du jeu…';
       const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js';
