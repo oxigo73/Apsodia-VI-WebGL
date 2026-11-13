@@ -95,7 +95,7 @@
     });
     let instance;
     const config = {
-      dataUrl: 'Build/ApsodiaWebGL.data.unityweb?v=b30b17a', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb?v=b30b17a', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb?v=b30b17a',
+      dataUrl: 'Build/ApsodiaWebGL.data.unityweb?v=d80efd6', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb?v=d80efd6', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb?v=d80efd6',
       streamingAssetsUrl: 'StreamingAssets', companyName: "Apsodia", productName: "Apsodia VI", productVersion: "1.0",
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
       showBanner: (message, type) => { if (type === 'error') { error.textContent = message; document.querySelector('#cover').hidden = false; } else console.warn(message); }
@@ -104,7 +104,7 @@
       if (showDeviceWelcome()) return;
       launch.disabled = true; launch.hidden = true; progress.hidden = false;
       status.textContent = 'Chargement du jeu…';
-      const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js?v=b30b17a';
+      const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js?v=d80efd6';
       script.onload = () => createUnityInstance(canvas, config, value => {
         progress.value = value; status.textContent = 'Chargement du jeu… ' + Math.round(value * 100) + ' %';
       }).then(game => {
