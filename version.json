@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "b30b17a0961834c4cee21adfa419c9e1975f9957",
+  "unity": "6000.6.9f1",
+  "features": [
+    "team-motion",
+    "office-interactions",
+    "lana-photo-ui",
+    "justin-coffee-fpv",
+    "tv-video"
+  ],
+  "sha256": {
+    "Build/ApsodiaWebGL.framework.js.unityweb": "f70e96fb96d25dcca893a7fce806a4441c86ac268df11d249dbb8f35221f5eb4",
+    "Build/ApsodiaWebGL.loader.js": "c1a1eb536b87aee8a64311c8a39b8a346e53e01bea016ab6d6ce6552f6ee56f6",
+    "Build/ApsodiaWebGL.wasm.unityweb": "b4f8f06a7d47a467db3c03217cd1267d66e0a003a7de71a7f476ef821153d3e1",
+    "Build/ApsodiaWebGL.data.unityweb": "8526cb0fb352f5ce6b77f99a2ed70bdbd68dd52d6beef9dd6947451a3506ad2f",
+    "StreamingAssets/apsodia-seo-geo-16x9.mp4": "15c552c11e07c9d34d1cb5c98e64fa6fd9fa2612a596adbdbd46d12783b1571b"
+  }
+}

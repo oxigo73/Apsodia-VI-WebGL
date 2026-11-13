@@ -60,9 +60,9 @@
     </section>
     <section id="player" aria-label="Jeu Apsodia VI">
     <canvas id="unity-canvas" width="1600" height="900" tabindex="0" aria-label="Jeu : choisir Justin, Enzo ou Lana. Commandes sous le jeu."></canvas>
-    <div id="cover"><div><h1>APSODIA VI</h1><p>Trois talents, une campagne. Prépare le pitch avec Justin, débloque les dossiers avec Enzo et réalise les photos avec Lana pour lancer BRIZ.</p><button id="launch">Lancer le jeu</button><progress id="progress" max="1" value="0" hidden aria-label="Chargement du jeu"></progress><p id="status" role="status" aria-live="polite">À tester sur ordinateur, avec clavier et souris.</p><p id="error" role="alert"></p></div></div>
+    <div id="cover"><div><h1>APSODIA VI</h1><p>Trois talents, une campagne. Prépare le café avec Justin, débloque les dossiers avec Enzo et réalise les photos avec Lana pour lancer BRIZ.</p><button id="launch">Lancer le jeu</button><progress id="progress" max="1" value="0" hidden aria-label="Chargement du jeu"></progress><p id="status" role="status" aria-live="polite">À tester sur ordinateur, avec clavier et souris.</p><p id="error" role="alert"></p></div></div>
   </section></main>
-  <footer><details><summary>Commandes et missions BRIZ</summary><p>Lobby : survol et clic sur un personnage, ou <kbd>1 / 2 / 3</kbd> puis <kbd>Entrée</kbd>. <kbd>B</kbd> affiche le brief. Les missions se jouent dans l’ordre de ton choix ; ta progression est conservée sur ce navigateur.<br>Bureau : <kbd>ZQSD / WASD / flèches</kbd>, <kbd>Maj</kbd> pour courir. Clique dans le jeu pour regarder avec la souris ; <kbd>Échap</kbd> la libère. Rejoins le repère coloré et appuie sur <kbd>E</kbd>. <kbd>L</kbd> revient au lobby hors mission.<br>Justin : rejoins le canapé, choisis trois cartes avec <kbd>1 à 6</kbd>, confirme avec <kbd>Entrée</kbd> et réponds au client avec <kbd>1 / 2 / 3</kbd>. Budget : six jetons.<br>Enzo : rejoins ses écrans. TRAMONTAGNE : <kbd>← →</kbd> déplacer, <kbd>↑ / X</kbd> pivoter, <kbd>Z</kbd> rotation inverse, <kbd>↓</kbd> descendre, <kbd>Espace</kbd> chute, <kbd>C</kbd> réserve. Efface six lignes.<br>Lana : rejoins le tableau blanc. <kbd>Flèches</kbd> pour cadrer, <kbd>+ / -</kbd> ou molette pour zoomer, <kbd>Espace</kbd> pour photographier. Les curseurs permettent aussi de régler le cadre.<br>Dans les missions : <kbd>P</kbd> pour mettre en pause, <kbd>Échap</kbd> pour revenir au bureau. Le bouton SON coupe les effets. Réussis les trois missions pour découvrir le bilan de campagne.</p></details><span class="spacer"></span><span>Version de travail · Apsodia</span></footer>
+  <footer><details><summary>Commandes et missions BRIZ</summary><p>Lobby : survol et clic sur un personnage, ou <kbd>1 / 2 / 3</kbd> puis <kbd>Entrée</kbd>. <kbd>B</kbd> affiche le brief. Les missions se jouent dans l’ordre de ton choix ; ta progression est conservée sur ce navigateur.<br>Bureau : <kbd>ZQSD / WASD / flèches</kbd>, <kbd>Maj</kbd> pour courir. Clique dans le jeu pour regarder avec la souris ; <kbd>Échap</kbd> la libère. Rejoins le repère coloré et appuie sur <kbd>E</kbd>. <kbd>L</kbd> revient au lobby hors mission. <kbd>F</kbd> utilise les chaises, le canapé et le tableau ; <kbd>T</kbd> commande la télévision pendant une pose. Au tableau : maintenir <kbd>Espace</kbd> pour écrire, <kbd>R</kbd> pour effacer.<br>Justin : rejoins la machine dans le sas d’entrée. En vue subjective, déplace la main avec la souris ou les flèches ; <kbd>Clic / Espace</kbd> pour saisir, verser et appuyer. Remplis le réservoir, insère une dosette puis lance le café. La main tremble davantage avec le temps.<br>Enzo : rejoins ses écrans. TRAMONTAGNE : <kbd>← →</kbd> déplacer, <kbd>↑ / X</kbd> pivoter, <kbd>Z</kbd> rotation inverse, <kbd>↓</kbd> descendre, <kbd>Espace</kbd> chute, <kbd>C</kbd> réserve. Efface six lignes.<br>Lana : rejoins le tableau blanc. <kbd>Flèches</kbd> pour cadrer, <kbd>+ / -</kbd> ou molette pour zoomer, <kbd>Espace</kbd> pour photographier. Glisse dans la photo pour ajuster le cadrage ; les indicateurs te guident.<br>Dans les missions : <kbd>P</kbd> pour mettre en pause, <kbd>Échap</kbd> pour revenir au bureau. Le bouton SON coupe les effets. Réussis les trois missions pour découvrir le bilan de campagne.</p></details><span class="spacer"></span><span>Version de travail · Apsodia</span></footer>
   <script>
     const canvas = document.querySelector('#unity-canvas');
     const status = document.querySelector('#status');
@@ -95,7 +95,7 @@
     });
     let instance;
     const config = {
-      dataUrl: 'Build/ApsodiaWebGL.data.unityweb', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb',
+      dataUrl: 'Build/ApsodiaWebGL.data.unityweb?v=b30b17a', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb?v=b30b17a', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb?v=b30b17a',
       streamingAssetsUrl: 'StreamingAssets', companyName: "Apsodia", productName: "Apsodia VI", productVersion: "1.0",
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
       showBanner: (message, type) => { if (type === 'error') { error.textContent = message; document.querySelector('#cover').hidden = false; } else console.warn(message); }
@@ -104,7 +104,7 @@
       if (showDeviceWelcome()) return;
       launch.disabled = true; launch.hidden = true; progress.hidden = false;
       status.textContent = 'Chargement du jeu…';
-      const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js';
+      const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js?v=b30b17a';
       script.onload = () => createUnityInstance(canvas, config, value => {
         progress.value = value; status.textContent = 'Chargement du jeu… ' + Math.round(value * 100) + ' %';
       }).then(game => {
