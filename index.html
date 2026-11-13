@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23100e18'/%3E%3Cpath d='M12 49L28 14h9l15 35H41l-3-8H25l-3 8zm17-17h6l-3-9z' fill='%2340ffab'/%3E%3C/svg%3E">
+  <title>Apsodia VI — Prototype jouable</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #100e18; color: #f8f5ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; }
+    header, footer { padding: 14px 24px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    header { border-bottom: 1px solid #ffffff20; }
+    strong { letter-spacing: .08em; } .tag { color: #a7a0b8; font-size: 13px; } .spacer { flex: 1; }
+    button, summary { cursor: pointer; } button { border: 1px solid #ffffff40; background: #ffffff08; color: inherit; border-radius: 6px; padding: 10px 16px; font: inherit; }
+    button:hover { background: #ffffff18; } button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid #40ffab; outline-offset: 4px; }
+    button:disabled { opacity: .5; cursor: wait; } #launch { background: #40ffab; color: #10251a; border: 0; font-weight: 750; margin-top: 18px; }
+    main { flex: 1; min-height: 0; display: grid; place-items: center; padding: 16px; }
+    #player { position: relative; width: min(100%, 1600px, calc((100dvh - 150px) * 16 / 9)); aspect-ratio: 16/9; background: #08070d; overflow: hidden; border-radius: 8px; box-shadow: 0 16px 90px #0006; }
+    canvas { width: 100%; height: 100%; display: block; background: #08070d; }
+    canvas:focus-visible { outline: 2px solid #40ffab; outline-offset: -2px; }
+    #cover { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; background: radial-gradient(ellipse at 80% 10%, #b0456940, transparent 65%), #151021; }
+    #cover[hidden] { display: none; } #cover h1 { font-size: clamp(30px, 6vw, 76px); font-style: italic; letter-spacing: -.05em; margin: 0 0 16px; } #cover p { color: #cdc7d8; max-width: 520px; line-height: 1.6; }
+    progress { width: min(100%, 350px); height: 8px; accent-color: #40ffab; display: block; margin: 20px auto 10px; }
+    #status { font-size: 14px; color: #c7c0d4; } #error { white-space: pre-wrap; color: #ffc2b6; }
+    footer { font-size: 13px; color: #c1b9ce; padding-top: 0; } details { max-width: 900px; } details p { line-height: 1.8; } kbd { color: #fff; }
+    #player:fullscreen { width: 100vw; height: 100dvh; border-radius: 0; } #player:fullscreen canvas { width: 100%; height: 100%; }
+    @media (max-width: 700px) { header, footer { padding: 12px; } main { padding: 4px; } #player { width: 100%; } .tag { display: none; } }
+  </style>
+</head>
+<body>
+  <header><strong>APSODIA VI</strong><span class="tag">PROTOTYPE JOUABLE · CLAVIER + SOURIS</span><span class="spacer"></span><button id="fullscreen" disabled>Plein écran</button></header>
+  <main><section id="player" aria-label="Jeu Apsodia VI">
+    <canvas id="unity-canvas" width="1600" height="900" tabindex="0" aria-label="Jeu : choisir Justin, Enzo ou Lana. Commandes sous le jeu."></canvas>
+    <div id="cover"><div><h1>APSODIA VI</h1><p>Trois talents, une campagne. Prépare le pitch avec Justin, débloque les dossiers avec Enzo et réalise les photos avec Lana pour lancer BRIZ.</p><button id="launch">Lancer le jeu</button><progress id="progress" max="1" value="0" hidden aria-label="Chargement du jeu"></progress><p id="status" role="status" aria-live="polite">À tester sur ordinateur, avec clavier et souris.</p><p id="error" role="alert"></p></div></div>
+  </section></main>
+  <footer><details><summary>Commandes et missions BRIZ</summary><p>Lobby : survol et clic sur un personnage, ou <kbd>1 / 2 / 3</kbd> puis <kbd>Entrée</kbd>. <kbd>B</kbd> affiche le brief. Les missions se jouent dans l’ordre de ton choix ; ta progression est conservée sur ce navigateur.<br>Bureau : <kbd>ZQSD / WASD / flèches</kbd>, <kbd>Maj</kbd> pour courir. Clique dans le jeu pour regarder avec la souris ; <kbd>Échap</kbd> la libère. Rejoins le repère coloré et appuie sur <kbd>E</kbd>. <kbd>L</kbd> revient au lobby hors mission.<br>Justin : rejoins le canapé, choisis trois cartes avec <kbd>1 à 6</kbd>, confirme avec <kbd>Entrée</kbd> et réponds au client avec <kbd>1 / 2 / 3</kbd>. Budget : six jetons.<br>Enzo : rejoins ses écrans. TRAMONTAGNE : <kbd>← →</kbd> déplacer, <kbd>↑ / X</kbd> pivoter, <kbd>Z</kbd> rotation inverse, <kbd>↓</kbd> descendre, <kbd>Espace</kbd> chute, <kbd>C</kbd> réserve. Efface six lignes.<br>Lana : rejoins le tableau blanc. <kbd>Flèches</kbd> pour cadrer, <kbd>+ / -</kbd> ou molette pour zoomer, <kbd>Espace</kbd> pour photographier. Les curseurs permettent aussi de régler le cadre.<br>Dans les missions : <kbd>P</kbd> pour mettre en pause, <kbd>Échap</kbd> pour revenir au bureau. Le bouton SON coupe les effets. Réussis les trois missions pour découvrir le bilan de campagne.</p></details><span class="spacer"></span><span>Version de travail · Apsodia</span></footer>
+  <script>
+    const canvas = document.querySelector('#unity-canvas');
+    const status = document.querySelector('#status');
+    const error = document.querySelector('#error');
+    const progress = document.querySelector('#progress');
+    const launch = document.querySelector('#launch');
+    const fullscreen = document.querySelector('#fullscreen');
+    let instance;
+    const config = {
+      dataUrl: 'Build/ApsodiaWebGL.data.unityweb', frameworkUrl: 'Build/ApsodiaWebGL.framework.js.unityweb', codeUrl: 'Build/ApsodiaWebGL.wasm.unityweb',
+      streamingAssetsUrl: 'StreamingAssets', companyName: "Apsodia", productName: "Apsodia VI", productVersion: "1.0",
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
+      showBanner: (message, type) => { if (type === 'error') { error.textContent = message; document.querySelector('#cover').hidden = false; } else console.warn(message); }
+    };
+    launch.addEventListener('click', () => {
+      launch.disabled = true; launch.hidden = true; progress.hidden = false;
+      status.textContent = 'Chargement du jeu…';
+      const script = document.createElement('script'); script.src = 'Build/ApsodiaWebGL.loader.js';
+      script.onload = () => createUnityInstance(canvas, config, value => {
+        progress.value = value; status.textContent = 'Chargement du jeu… ' + Math.round(value * 100) + ' %';
+      }).then(game => {
+        instance = game; document.querySelector('#cover').hidden = true; fullscreen.disabled = false; canvas.focus();
+      }).catch(fail);
+      script.onerror = () => fail('Impossible de charger le jeu. Vérifie que cette page est ouverte via le serveur HTTP fourni.');
+      document.body.appendChild(script);
+    });
+    function fail(message) { error.textContent = String(message); status.textContent = 'Le chargement a échoué. Recharge la page pour réessayer.'; progress.hidden = true; }
+    fullscreen.addEventListener('click', () => { document.querySelector('#player').requestFullscreen().then(() => canvas.focus()).catch(() => { if (instance) instance.SetFullscreen(1); }); });
+    canvas.addEventListener('keydown', event => { if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(event.key)) event.preventDefault(); });
+  </script>
+</body>
+</html>
