@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "d80efd6be79ede463a4c35205db0dcf75eda3af5",
+  "sourceCommit": "3c9f5de858cb913fe25e56dd2ce4d58a2ef3f502",
   "unity": "6000.6.9f1",
   "features": [
     "team-motion",
@@ -11,13 +11,14 @@
     "natural-shoulders",
     "light-enzo-skin",
     "visible-carried-mac",
-    "phone-finger-contacts"
+    "phone-finger-contacts",
+    "safe-browser-pointer-lock"
   ],
   "sha256": {
-    "Build/ApsodiaWebGL.framework.js.unityweb": "8ab9417a160b6d72265b291c903c7ea35c88d69d59aeeca2049d60dcfa5a8ce4",
-    "Build/ApsodiaWebGL.loader.js": "49ef73b07070791579cbd47e57749594d43213b8aa306e728876971393e539f7",
-    "Build/ApsodiaWebGL.wasm.unityweb": "6734fae42f25e949626e0d849272965f010d208657809f1981ad12e9147ad952",
-    "Build/ApsodiaWebGL.data.unityweb": "edc69b3a3bcc5b59ee02931c27a70d45db7e93f45a3300636177c27c1911b58b",
+    "Build/ApsodiaWebGL.framework.js.unityweb": "1c749a64160d1b207c28d6e30f354cdeb80cc26fd7e5a8ba8b9c6a5dafa5ea26",
+    "Build/ApsodiaWebGL.loader.js": "dcdc89b7de5c57c885619bd04c2c28f81c746352fd2204220bc779b76ba2ac71",
+    "Build/ApsodiaWebGL.wasm.unityweb": "d17c20e90c0e9461be24b3cffe8cac844b2ec7a1a78e16cbb6c890425c71dab5",
+    "Build/ApsodiaWebGL.data.unityweb": "eecee09d969e2c9fd3e54177523a5da72fa708386ed5f36055a7900feaebae8c",
     "StreamingAssets/apsodia-seo-geo-16x9.mp4": "15c552c11e07c9d34d1cb5c98e64fa6fd9fa2612a596adbdbd46d12783b1571b"
   }
 }
